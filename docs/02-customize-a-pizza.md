@@ -1,12 +1,12 @@
-# Customize a pizza
+# 내 피자 만들기
 
-In this session we'll update the pizza store app to enable users to customize their pizzas and add them to their order.
+이 세션에서는 사용자가 내 피자를 만들고 그것을 주문에 추가하 수 있도록 피자 가게 앱을 업데이트 합니다.
 
-## Event handling
+## 이벤트 핸들링
 
-When the user clicks a pizza special, a pizza customization dialog should pop up to allow the user to customize their pizza and add it to their order. To handle DOM UI events in a Blazor app, you specify which event you want to handle using the corresponding HTML attribute and then specify the C# delegate you want called. The delegate may optionally take an event specific argument, but it's not required.
+사용자가 피자 메뉴를 클릭하면 내 기호에 맞게 변경하고 주문에 추가할 수 있는 대화상자가 나게 합니다. 블레이저 앱에서 DOM UI 이벤트를 처리하려면 이벤트를 처리할 HTML 특성에 호출할 C# 함수를 지정합니다. 함수에 이벤트 인수를 사용할 수 있지만 필수는 아닙니다.
 
-In *Pages/Index.razor* add the following `@onclick` handler to the list item for each pizza special:
+*Pages/Index.razor* 파일에서 `@onclick` handler 핸들러를 각 피자 메뉴 항목에 추가합니다.
 
 ```html
 @foreach (var special in specials)
@@ -21,14 +21,14 @@ In *Pages/Index.razor* add the following `@onclick` handler to the list item for
 }
 ```
 
-Run the app and check that the pizza name is written to the browser console whenever a pizza is clicked. 
+앱을 실행하고 피자를 클릭하면 브라우저 콘솔에 피자 이름이 표시되지는 확인해 주세요.
 
 ![@onclick-event](https://user-images.githubusercontent.com/1874516/77239615-f56dbf00-6b99-11ea-8535-ddcc8bc0d8ae.png)
 
 
-The `@` symbol is used in Razor files to indicate the start of C# code. Surround the C# code with parens if needed to clarify where the C# code begins and ends.
+`@` 기호는 Razor 파일에서 C# 코드의 시작을 나타내기 위해 사용됩니다. C# 코드의 시작과 끝을 명확히 하기 위해 필요한 경우 괄호로 C# 코드를 둘러싸십시오.
 
-Update the `@code` block in *Index.razor* to add some additional fields for tracking the pizza being customized and whether the pizza customization dialog is visible.
+*Index.razor* 파일의 `@code` 코드 블럭을 수정하여 기호에 맞게 변경한 내용을 저장하고 이 대화상자가 표시되는지 여부를 확인하 수 있는 필드를 추가합니다.
 
 ```csharp
 List<PizzaSpecial> specials;
@@ -36,7 +36,7 @@ Pizza configuringPizza;
 bool showingConfigureDialog;
 ```
 
-Add a `ShowConfigurePizzaDialog` method to the `@code` block for handling when a pizza special is clicked.
+피자 메뉴를 클릭할 때 이벤트를 처리할 수 있도록 `ShowConfigurePizzaDialog` 메서드를 `@code` 코드 블럭에 추가합니다.
 
 ```csharp
 void ShowConfigurePizzaDialog(PizzaSpecial special)
@@ -53,21 +53,21 @@ void ShowConfigurePizzaDialog(PizzaSpecial special)
 }
 ```
 
-Update the `@onclick` handler to call the `ShowConfigurePizzaDialog` method instead of `Console.WriteLine`.
+`@onclick` handler를 `Console.WriteLine`대신에 `ShowConfigurePizzaDialog`를 호출할 수 있도록 수정합니다.
 
 ```html
 <li @onclick="@(() => ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">
 ```
 
-## Implement the pizza customization dialog
+## "내 피자 만들기" 대화상자 구현
 
-Now we need to implement the pizza customization dialog so we can display it when the user selects a pizza. The pizza customization dialog will be a new component that lets you specify the size of your pizza and what toppings you want, shows the price, and lets you add the pizza to your order.
+이제 사용자가 피자를 선택할 때 표시할 수 있도록 "내 피자 만들기" 대화상자를 구현해야 합니다. "내 피자 만들기" 대화상자는 피자의 크기와 원하는 토핑을 지정하고 가격를 표시하며 주문에 피자를 추가할 수 있는 새로운 컴포넌트가 됩니다.
 
-Add a *ConfigurePizzaDialog.razor* file under the *Shared* directory. Since this component is not a separate page, it does not need the `@page` directive.
+*Shared* 디렉토리에 *ConfigurePizzaDialog.razor* 파일을 추가합니다. 이 컴포넌트는 별도의 페이지가 아니므로 '@page' 지시어가 필요하지 않습니다.
 
-> Note: In Visual Studio, you can right-click the *Shared* directory in Solution Explorer, then choose *Add* -> *New Item* to use the *Razor Component* item template to add a new Razor component.
+> Note: Visual Studio에서는 Solution Explorer에서 *Shared* 디렉토리를 마우스 오른쪽 버튼으로 클릭한 다음 *Add* -> *New Item*을 선택하여 *Razor Component* 항목 템플릿을 사용하여 새 Razor 구성 요소를 추가할 수 있습니다.
 
-The `ConfigurePizzaDialog` should have a `Pizza` parameter that specifies the pizza being configured. Component parameters are defined by adding a writable property to the component decorated with the `[Parameter]` attribute. Add a `@code` block to the `ConfigurePizzaDialog` with the following `Pizza` parameter:
+`ConfigurePizzaDialog`는 구성할 피자를 지정하는 `Pizza` 매개 변수가 있어야 합니다. 컴포넌트 매개 변수는 `[Parameter]` 속성으로 정의합니다. 아래와 같이 `Pizza` 매개 변수를 `ConfigurePizzaDialog`에 정의하는 코드를 `@code` 코드 블럭에 추가해 주세요.
 
 ```csharp
 @code {
@@ -75,9 +75,9 @@ The `ConfigurePizzaDialog` should have a `Pizza` parameter that specifies the pi
 }
 ```
 
-> Note: Component parameter values need to have a setter and be declared `public` because they get set by the framework. However, they should *only* be set by the framework as part of the rendering process. Don't write code that overwrites these parameter values from outside the component, because then your component's state will be out of sync with its render output.
+> Note: 컴포넌트 매개 변수 값은 프레임워크에 의해 설정되므로 `public`으로 선언된 setter가 있어야 합니다. 하지만 매개 변수는 렌더링 프로세스의 일부로 반드시 프레임워크에 의해서만 설정되어야 합니다. 컴포넌트의 상태가 렌더 출력과 동기화되지 않으므로 컴포넌트 외부에서 이러한 매개 변수 값을 덮어쓰는 코드를 작성하면 안됩니다.
 
-Add the following basic markup for the `ConfigurePizzaDialog`:
+`ConfigurePizzaDialog`를 위한 기본 마그업을 추가합니다.
 
 ```html
 <div class="dialog-container">
@@ -98,7 +98,7 @@ Add the following basic markup for the `ConfigurePizzaDialog`:
 </div>
 ```
 
-Update *Pages/Index.razor* to show the `ConfigurePizzaDialog` when a pizza special has been selected. The `ConfigurePizzaDialog` is styled to overlay the current page, so it doesn't really matter where you put this code block.
+피자 메뉴를 선택하면 `ConfigurePizzaDialog`가 표시되도록 *Pages/Index.razor* 파일을 수정합니다. `ConfigurePizzaDialog`는 현재 페이지를 오버레이하도록 지정되어 있으므로 아래 코드가 어디에 있는지는 중요하지 않습니다.
 
 ```html
 @if (showingConfigureDialog)
@@ -107,16 +107,15 @@ Update *Pages/Index.razor* to show the `ConfigurePizzaDialog` when a pizza speci
 }
 ```
 
-Run the app and select a pizza special to see the skeleton of the `ConfigurePizzaDialog`.
+앱을 실행하고 피자 메뉴를 선택하여 `ConfigurePizzaDialog`이 표시되는 지 확인해 주세요.
 
 ![initial-pizza-dialog](https://user-images.githubusercontent.com/1874516/77239685-e3d8e700-6b9a-11ea-8adf-5ee8a69f08ae.png)
 
+안타깝게도 이 시점에서는 대화상자를 닫을 수 있는 기능이 없습니다. 대화 상자 자체에 대한 구현을 시작하도록 하죠.
 
-Unfortunately at this point there's no functionality in place to close the dialog. We'll add that shortly. Let's get to work on the dialog itself.
+## 데이터 바인딩
 
-## Data binding
-
-The user should be able to specify the size of their pizza. Add markup to the body of `ConfigurePizzaDialog` for a slider that lets the user specify the pizza size. This should replace the existing `<form class="dialog-body"></form>` element.
+사용자는 피자의 크기를 정할 수 있어야 합니다. `ConfigurePizzaDialog`에 피자 크기를 조정할 수 있는 슬라이더를 마크업을 추가합니다. 기존의 `<form class="dialog-body"></form>` 요소를 대체해야 합니다.
 
 ```html
 <form class="dialog-body">
@@ -130,13 +129,13 @@ The user should be able to specify the size of their pizza. Add markup to the bo
 </form>
 ```
 
-Now the dialog shows a slider that can be used to change the pizza size. However it doesn't do anything right now if you use it.
+이제 대화 상자에는 피자 크기를 조정하는데 사용할 수 있는 슬라이더가 표시됩니다. 하지만 지금은 조정해도 아무 것도 처리되지 않습니다.
 
 ![Slider](https://user-images.githubusercontent.com/1430011/57576985-eff40400-7421-11e9-9a1b-b22d96c06bcb.png)
 
-We want the value of `Pizza.Size` to reflect the value of the slider. When the dialog opens, the slider gets its value from `Pizza.Size`. Moving the slider should update the pizza size stored in `Pizza.Size` accordingly. This concept is called two-way binding.
+슬라이더의 값이 `Pizza.Size`의 값이 되었으면 좋겠습니다. 대화상자가 열리면 슬라이더는 `Pizza.Size`에서 값을 얻어서 표시합니다. 슬라이더를 움직이면 `Pizza.Size`에 저장된 값이 수정됩니다. 이 개념을 양방향 바인딩이라고 합니다.
 
-If you wanted to implement two-way binding manually, you could do so by combining value and @onchange, as in the following code (which you don't actually need to put in your application, because there's an easier solution):
+양방향 바인딩을 수동으로 구현하려면 다음 코드와 같이 value와 @onchange를 결합하여 구현할 수 있습니다.(더 쉬운 방법이 있으므로 이 코드를 실제로 어플리케이션을 추가할 필요는 없습니다.)
 
 ```html
 <input 
@@ -148,29 +147,29 @@ If you wanted to implement two-way binding manually, you could do so by combinin
     @onchange="@((ChangeEventArgs e) => Pizza.Size = int.Parse((string) e.Value))" />
 ```
 
-In Blazor you can use the `@bind` directive attribute to specify a two-way binding with this same behavior. The equivalent markup using `@bind` looks like this:
+블레이저에서 `@bind` 지시 속성을 사용하여 동일한 동작을 하는 양방향 바인딩을 지정할 수 있습니다. `@bind`를 사용한 마크업을 아래와 같습니다.
 
 ```html
 <input type="range" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size"  />
 ```
 
-But if we use `@bind` with no further changes, the behavior isn't exactly what we want. Give it a try and see how it behaves. The update event only fires after the slider is released.
+그러나 변경이 없는 경우에 `@bind`를 사용하면 정확히 우리가 기대하는 동작을 하지 않습니다. 한 번 시도해 보고 동작을 확인해 보세요. 업데이트 이벤트는 슬라이더가 릴리즈되어야 발생합니다.
 
 ![Slider with default bind](https://user-images.githubusercontent.com/1874516/51804870-acec9700-225d-11e9-8e89-7761c9008909.gif)
 
-We'd prefer to see updates as the slider is moved. Data binding in Blazor allows for this by letting you specify which event triggers a change using the syntax `@bind:<eventname>`. So, to bind using the `oninput` event instead do this:
+사실 슬라이더가 이동할 때 값이 업데이트 되는 것을 기대합니다. 블레이저의 데이터 바인딩은 `@bind:<eventname>` 구문을 사용하여 특정 이벤트를 지정할 수 있습니다. `oninput` 이벤트에 바인딩하려면 아래 코드처럼 작성합니다.
 
 ```html
 <input type="range" min="@Pizza.MinimumSize" max="@Pizza.MaximumSize" step="1" @bind="Pizza.Size" @bind:event="oninput" />
 ```
 
-The pizza size should now update as you move the slider.
+이제 슬라이더를 이동하면 피자 크기가 업데이트 됩니다.
 
 ![Slider bound to oninput](https://user-images.githubusercontent.com/1874516/51804899-28e6df00-225e-11e9-9148-caf2dd269ce0.gif)
 
-## Add additional toppings
+## 토핑 추가하기
 
-The user should also be able to select additional toppings on `ConfigurePizzaDialog`. Add a list for storing the available toppings. Initialize the list of available toppings by making an HTTP GET request to the `/toppings` minimal API, defined at `PizzaApiExtensions.cs` in the **BlazingPizza.Server** project.
+`ConfigurePizzaDialog`에서 사용자는 추가 토핑을 선택할 수도 있습니다. 선택 가능한 토핑을 저장하기 위한 목록을 추가해 주세요. **BlazingPizza.Server** 프로젝트의 `PizzaApiExtensions.cs`에 정의된 minimal API(`/toppings`)에 HTTP GET 요청을 통해 사용 가능한 목록을 가져와 초기화 합니다.
 
 ```csharp
 @inject HttpClient HttpClient
@@ -191,7 +190,7 @@ The user should also be able to select additional toppings on `ConfigurePizzaDia
 }
 ```
 
-Add the following markup in the dialog body for displaying a drop down list with the list of available toppings followed by the set of selected toppings. Put this inside the `<form class="dialog-body">`, below the existing `<div>`."
+대화 상자에 아래 마크업을 추가하여 사용 가능한 토핑 목록과 선택한 토핑을 표시합니다. 기존의 `<div>` 태크 아래에 `<form class="dialog-body">`태그 안에 아래 마크업을 추가해 주세요.
 
 ```html
 <div>
@@ -230,7 +229,7 @@ Add the following markup in the dialog body for displaying a drop down list with
 </div>
 ```
 
-Also add the following event handlers for topping selection and removal:
+토핑 선택 및 제거를 위한 이벤트 핸들러 역시 추가해 주세요.
 
 ```csharp
 void ToppingSelected(ChangeEventArgs e)
@@ -255,23 +254,23 @@ void RemoveTopping(Topping topping)
 }
 ```
 
-You should now be able to add and remove toppings.
+이제 토핑을 추가하고 제거할 수 있습니다.
 
 ![Add and remove toppings](https://user-images.githubusercontent.com/1874516/77239789-c0626c00-6b9b-11ea-9030-0bcccdee6da7.png)
 
 
-## Component events
+## 컴포넌트 이벤트
 
-The Cancel and Order buttons don't do anything yet. We need some way to communicate to the `Index` component when the user adds the pizza to their order or cancels. We can do that by defining component events. Component events are callback parameters that parent components can subscribe to.
+취소 및 주문 버튼은 아직 아무 것도 동작하지 않습니다. 사용자가 피자를 주문하거나 취소할 때 `Index` 컴포넌트와 통신할 수 있는 방법이 필요합니다. 컴포넌트 이벤트를 정의하면 그렇게 할 수 있습니다. 컴포넌트 이벤트는 부모 컴포넌트가 구독할 수 있는 콜백 매개 변수 입니다.
 
-Add two parameters to the `ConfigurePizzaDialog` component: `OnCancel` and `OnConfirm`. Both parameters should be of type `EventCallback`.
+`ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`, 두 개의 매개 변수를 추가해 주세요. 두 매개 변수 모두 `EventCallback` 타입이어야 합니다.
 
 ```csharp
 [Parameter] public EventCallback OnCancel { get; set; }
 [Parameter] public EventCallback OnConfirm { get; set; }
 ```
 
-Add `@onclick` event handlers to the `ConfigurePizzaDialog` that trigger the `OnCancel` and `OnConfirm` events.
+ `ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`를 `@onclick` 이벤트 핸들러에 각각 추가합니다.
 
 ```html
 <div class="dialog-buttons">
@@ -283,7 +282,7 @@ Add `@onclick` event handlers to the `ConfigurePizzaDialog` that trigger the `On
 </div>
 ```
 
-In the `Index` component add an event handler for the `OnCancel` event that hides the dialog and wires it up to the `ConfigurePizzaDialog`.
+`Index` 컴포넌트에서 대화상자를 숨기는 이벤트 핸들러를 `ConfigurePizzaDialog`에 연결하도록 `OnCancel`에 추가합니다.
 
 ```html
 <ConfigurePizzaDialog Pizza="configuringPizza" OnCancel="CancelConfigurePizzaDialog" />
@@ -297,15 +296,15 @@ void CancelConfigurePizzaDialog()
 }
 ```
 
-Now when you click the dialog's Cancel button, `Index.CancelConfigurePizzaDialog` will execute, and then the `Index` component will rerender itself. Since `showingConfigureDialog` is now `false` the dialog will not be displayed.
+이제 대화상자의 취소 버튼을 클릭하면 `Index.CancelConfigurePizzaDialog`가 실행되고 그러면 `Index` 컴포넌트가 다시 렌더링됩니다. 이제 `showingConfigureDialog`가 `false`이므로 대화상자가 표시되지 않게 됩니다.
 
-Normally what happens when you trigger an event (like clicking the Cancel button) is that the component that defined the event handler delegate will rerender. You could define events using any delegate type like `Action` or `Func<string, Task>`. Sometimes you want to use an event handler delegate that doesn't belong to a component - if you used a normal delegate type to define the event then nothing will be rendered or updated.
+일반적으로 이벤트를 트리거 할 때(취소 버튼을 클릭하는 것 처럼) 발생하는 일은 이벤트 핸들러를 정의한 컴포넌트가 렌더링됩니다. `Action`, `Func<string, Task>`과 같은 대리자 타입을 이용하여 이벤트를 정의할 수 있습니다. 컴포넌트에 속하지 않는 이벤트를 사용하고자 할 때도 있습니다. 이 경우 일반적인 대리자 타입을 정의하면 렌더링 혹은 업데이트가 되지 않습니다. 
 
-`EventCallback` is a special type that is known to the compiler that resolves some of these issues. It tells the compiler to dispatch the event to the component that contains the event handler logic. `EventCallback` has a few more tricks up its sleeve, but for now just remember that using `EventCallback` makes your component smart about dispatching events to the right place.
+`EventCallback`은 컴파일러에게 이러한 문제를 해결하는 방법으로 알려진 특수한 타입입니다. 이는 컴파일러에게 이벤트 핸들러를 포함하는 컴포넌트에게 이벤트가 발생하도록 지시합니다. `EventCallback`를 사용하는 몇 가지 트릭이 더 있지만 지금은 `EventCallback`를 사용하면 컴포넌트의 적당한 위치에 현명하게 이벤트를 발생시킬 수 있다는 것만 기억해 주세요.
 
-Run the app and verify that the dialog now disappears when the Cancel button is clicked.
+앱을 실행하고 취소 버튼을 클릭하면 대화 상자가 없어지는 것을 확인해 주세요.
 
-When the `OnConfirm` event is fired, the customized pizza should be added to the user's order. Add an `Order` field to the `Index` component to track the user's order.
+`OnConfirm` 이벤트가 발생하면 토핑을 추가한 피자를 사용자의 주문에 추가합니다. `Index` 컴포넌트에 `Order`필드를 추가하여 사용자의 주문을 저장합니다.
 
 ```csharp
 List<PizzaSpecial> specials;
@@ -314,7 +313,7 @@ bool showingConfigureDialog;
 Order order = new Order();
 ```
 
-In the `Index` component add an event handler for the `OnConfirm` event that adds the configured pizza to the order and wire it up to the `ConfigurePizzaDialog`.
+`Index` 컴포넌트에 선택된 피자를 주문에 추가하는 `OnConfirm` 이벤트 핸들러를 추가하고 `ConfigurePizzaDialog`에 연결합니다.
 
 ```html
 <ConfigurePizzaDialog 
@@ -333,13 +332,13 @@ void ConfirmConfigurePizzaDialog()
 }
 ```
 
-Run the app and verify the dialog now disappears when the Order button is clicked. We can't see yet that a pizza was added to the order because there's no UI that shows this information. We'll address that next.
+앱을 실행하고 주문 버튼을 클릭하면 대화상자가 사라지는 지 확인합니다. 주문 정보를 표시하는 UI가 없기 때문에 주문이 추가되었는지 아직 확인할 수 없습니다. 다음에 설명하겠습니다.
 
-## Display the current order
+## 현재 주문 표시하기
 
-Next we need to display the configured pizzas in the current order, calculate the total price, and provide a way to place the order.
+다음으로 현재 선택중인 피자를 표시하고 전체 가격을 계산하고 주문할 수 있는 방법을 제공해야 합니다.
 
-Create a new `ConfiguredPizzaItem` component for displaying a configured pizza. It takes two parameters: the configured pizza, and an event for when the pizza was removed.
+선택된 피자를 표시하기 위한 `ConfiguredPizzaItem` 컴포넌트를 새롭게 만듭니다. 이 컴포넌트는 피지와 피자를 제거하는 이벤트 두 가지 매개 변수가 필요합니다.
 
 ```html
 <div class="cart-item">
@@ -362,7 +361,7 @@ Create a new `ConfiguredPizzaItem` component for displaying a configured pizza. 
 }
 ```
 
-Add the following markup to the `Index` component just below the `main` div to add a right side pane for displaying the configured pizzas in the current order.
+현재 주문의 선택된 피자을 표시하는 오른쪽 사이드 패널을 추가하기 위해 `Index` 컴포넌트의 `main` div 아래에 아래 마크업을 추가하세요.
 
 ```html
 <div class="sidebar">
@@ -392,7 +391,7 @@ Add the following markup to the `Index` component just below the `main` div to a
 </div>
 ```
 
-Also add the following event handlers to the `Index` component for removing a configured pizza from the order and submitting the order.
+또한 선택된 피자를 제거하고 주문을 넣기 위한 이벤트 핸들러를 `Index` component에 추가하기 위해 아래 코드를 추가해 주세요.
 
 ```csharp
 void RemoveConfiguredPizza(Pizza pizza)
@@ -407,11 +406,11 @@ async Task PlaceOrder()
 }
 ```
 
-You should now be able to add and remove configured pizzas from the order and submit the order.
+이제 선택된 피자를 제거하고 주문을 넣을 수 있게 되었습니다.
 
 ![Order list pane](https://user-images.githubusercontent.com/1874516/77239878-b55c0b80-6b9c-11ea-905f-0b2558ede63d.png)
 
 
-Even though the order was successfully added to the database, there's nothing in the UI yet that indicates this happened. That's what we'll address in the next session.
+주문이 데이터베이스에 성공적으로 추가되었지만 UI에서는 아직 이러한 일이 발생했음을 나타내는 것이 아무 것도 없습니다. 그것은 다음 세션에서 다룰 것입니다.
 
-Next up - [Show order status](03-show-order-status.md)
+다음 세션 - [주문 상태 표시하기](03-show-order-status.md)
