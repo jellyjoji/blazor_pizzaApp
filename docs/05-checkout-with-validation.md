@@ -1,12 +1,14 @@
-# Checkout with Validation
+# 입력값 확인
 
-If you take a look at the `Order` class in `BlazingPizza.Shared`, you might notice that it holds a `DeliveryAddress` property of type `Address`. However, nothing in the pizza ordering flow yet populates this data, so all your orders just have a blank delivery address. 
+`BlazingPizza.Shared` 프로젝트에 `Order` 클래스를 보면 `Address` 타입의 속성으로 `DeliveryAddress`가 있는 것을 알 수 있습니다. 그러나 피자 주문 흐름에는 아직 이 데이터가 없으므로 모든 주문에는 빈 배달 주소만 있습니다.
+
+고객이 유효한 주소를 입력해야 하는 "확인" 화면을 추가하여 이 문제를 해결해야 할 때입니다.
 
 It's time to fix this by adding a "checkout" screen that requires customers to enter a valid address.
 
-## Inserting checkout into the flow
+## 흐름에 확인 단계 추가하기
 
-Start by adding a new page component, `Checkout.razor`, with a `@page` directive matching the URL `/checkout`. For the initial markup, let's display the details of the order using your `OrderReview` component:
+URL `/checkout`에 해당하는 `@page` 지시문과 함께 새로운 페이지 컴포넌트인 `Checkout.razor`를 추가하는 것으로 시작합니다. 초기 마크업의 경우 `Order Review` 구성 요소를 사용하여 주문의 세부 정보를 표시합니다
 
 ```razor
 <PageTitle>Blazing Pizza - Checkout</PageTitle>
@@ -25,7 +27,7 @@ Start by adding a new page component, `Checkout.razor`, with a `@page` directive
 </div>
 ```
 
-To implement `PlaceOrder`, copy the method with that name from `Index.razor` into `Checkout.razor`:
+일단 `PlaceOrder`를 구현하기 위해 `Index.razor` 파일에서 같은 이름의 메서드를 `Checkout.razor` 파일로 복사합니다.
 
 ```razor
 @code {
@@ -39,9 +41,9 @@ To implement `PlaceOrder`, copy the method with that name from `Index.razor` int
 }
 ```
 
-As usual, you'll need to `@inject` values for `OrderState`, `HttpClient`, and `NavigationManager` so that it can compile, just like you did in `Index.razor`.
+여기에서도 `Index.razor`에서 사용되었던 것처럼 `OrderState`, `HttpClient`, 그리고 `NavigationManager`에 대해서 `@inject` 값이 필요합니다.
 
-Next, let's bring customers here when they try to submit orders. Back in `Index.razor`, make sure you've deleted the `PlaceOrder` method, and then change the order submission button into a regular HTML link to the `/checkout` URL, i.e.:
+다음으로 고객이 주문을 제출하려고 할 때 고객을 여기로 데려갑니다. 다시 `Index.razor`로 돌아가서 `PlaceOrder` 메서드를 삭제했는지 확인한 다음 주문 제출 버튼을 `/checkout` URL로 일반 HTML 링크로 변경합니다. 아래와 같이 바꾸어 주세요.
 
 ```razor
 <a href="checkout" class="@(OrderState.Order.Pizzas.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
@@ -49,25 +51,24 @@ Next, let's bring customers here when they try to submit orders. Back in `Index.
 </a>
 ```
 
-> Note that we removed the `disabled` attribute, since HTML links do not support it, and added appropriate styling instead.
+> HTML 링크가 지원하지 않는 'disabled' 속성을 삭제하고 대신 적절한 스타일링을 추가하였습니다.
 
-Now, when you run the app, you should be able to reach the checkout page by clicking the *Order* button, and from there you can click *Place order* to confirm it.
+이제 앱을 실행할 때 *Order* 버튼을 클릭하면 체크아웃 페이지에 도달할 수 있으며, 여기서 *Place order*을 클릭하여 주문을 확정할 수 있습니다.
 
 ![Confirm order](https://user-images.githubusercontent.com/1874516/77242251-d2530780-6bb9-11ea-8535-1c41decf3fcc.png)
 
-## Capturing the delivery address
+## 배달 주소 얻기
 
-We've now got a good place to put some UI for entering a delivery address. As usual, let's factor this out into a reusable component. You never know when you're going to be asking for addresses in other places.
+이제 배달 주소를 입력할 수 있는 UI가 들어갈 좋은 장소가 생겼습니다. 평소처럼 이것을 재사용 가능한 컴포넌트로 설계해 봅시다. 다른 곳에서 언제 주소를 입력하게 될지 알 수 없습니다.
 
-Create a new component in the `BlazingPizza.Client` project's `Shared` folder called `AddressEditor.razor`. It's going to be a general way to edit `Address` instances, so have it receive a parameter of this type:
+`BlazingPizza.Client` 프로젝트의 `Shared` 폴더에 `AddressEditor.razor`라는 새 컴포넌트를 생성합니다. 이 컴포넌트는 `Address` 인스턴스를 편집하는 일반적인 방법이므로 다음과 같은 타입의 매개 변수를 수신합니다.
 
 ```razor
 @code {
     [Parameter] public Address Address { get; set; }
 }
 ```
-
-The markup here is going to be a bit tedious, so you probably want to copy and paste this. We'll need input elements for each of the properties on an `Address`:
+여기 마크업은 조금 지루할 것이기 때문에 이것을 복사하고 붙여넣기로 추가하세요.. 우리는 `Address`의 각 속성에 대한 입력 요소가 필요한 것뿐입니다.
 
 ```razor
 <div class="form-field">
@@ -117,7 +118,7 @@ The markup here is going to be a bit tedious, so you probably want to copy and p
 }
 ```
 
-Finally, you can actually use your `AddressEditor` inside the `Checkout.razor` component:
+마지막으로 실제 `Checkout.razor` 컴포넌트 안에서 `AddressEditor`를 사용할 수 있습니다.
 
 ```razor
 <div class="checkout-cols">
@@ -132,24 +133,24 @@ Finally, you can actually use your `AddressEditor` inside the `Checkout.razor` c
 </div>
 ```
 
-Your checkout screen now asks for a delivery address:
+이제 "확인" 화면에 배송 주소를 입력하게 되었습니다.
 
 ![Address editor](https://user-images.githubusercontent.com/1874516/77242320-79d03a00-6bba-11ea-9e40-4bf747d4dcdc.png)
 
-If you submit an order now, any address data that you entered will actually be saved in the database with the order, because it's all part of the `Order` object that gets serialized and sent to the server.
+이제 주문을 하면 입력한 주소 데이터는 모두 직렬화되어 서버로 전송되는 `Order` 객체의 일부이기 때문에 실제로 주문과 함께 데이터 베이스에 저장됩니다.
 
-If you're really keen to verify the data gets saved, consider downloading a tool such as [DB Browser for SQLite](https://sqlitebrowser.org/) to inspect the contents of your `pizza.db` file. But you don't strictly need to do this.
+정말로 데이터가 저장되고 있는지 확인하고 싶다면 [DB Browser for SQLite](https://sqlitebrowser.org/)와 같은 도구를 다운로드하여 `pizza.db` 파일을 열어보세요. 하지만 꼭 해볼 필요는 없을 것 같습니다.
 
-Alternatively, set a breakpoint inside `BlazingPizza.Server`'s `OrderController.PlaceOrder` method, and use the debugger to inspect the incoming `Order` object. Here you should be able to see the backend server receive the address data you typed in.
+또는 `BlazingPizza.Server` 프로젝트의 `OrderController.PlaceOrder` 메서드에 브레이크 포인트를 설정하고 디버거를 사용하여 들어오는 `Order` 객체를 검사합니다. 그러면 백엔드 서버가 입력한 주소 데이터를 수신하는 것을 볼 수 있습니다.
 
-## Adding server-side validation
+## 서버측 유효성 검사 추가하기
 
-As yet, customers can still leave the "delivery address" fields blank and merrily order a pizza to be delivered nowhere in particular. When it comes to validation, it's normal to implement rules both on the server and on the client:
+아직 고객은 "배달 주소" 필드를 비워두고 피자가 배달되지 않도록 즐겁게 주문할 수 있습니다. 검증과 관련하여 서버와 클라이언트 모두에서 규칙을 실행하는 것이 일반적입니다.
 
- * Client-side validation is a courtesy to your users. It can provide instant feedback while they are editing a form. However, it can easily be bypassed by anyone with a basic knowledge of the browser dev tools.
- * Server-side validation is where the real enforcement is.
+ * 클라이언트측 확인은 사용자에 대한 배려입니다. 양식을 편집하는 동안 즉각적인 피드백을 제공할 수 있습니다. 그러나 브라우저 개발 도구에 대한 기본 지식을 가진 사람이라면 누구나 쉽게 무시할 수 있습니다.
+ * 서버 측 유효성 검사는 실제 시행이 되어야 하는 곳입니다.
 
-As such it's usually best to start by implementing server-side validation, so you know your app is robust no matter what happens client-side. If you go and look at `OrdersController.cs` in the `BlazingPizza.Server` project, you'll see that this API endpoint is decorated with the `[ApiController]` attribute:
+따라서 일반적으로 서버측에서 유효성 검사를 구현하는 것이 가장 좋으므로 클라이언트측에서 어떤 일이 일어나든 앱이 안정적이라는 것을 알 수 있습니다. `BlazingPizza.Server` 프로젝트의 `OrdersController.cs`을 보면 이 API 끝점이 `[ApiController]` 속성으로 장식되어 있음을 알 수 있습니다
 
 ```csharp
 [Route("orders")]
@@ -160,10 +161,9 @@ public class OrdersController : Controller
 }
 ```
 
-`[ApiController]` adds various server-side conventions, including enforcement of `DataAnnotations` validation rules. So all we need to do is put some `DataAnnotations` validation rules onto the model classes.
+[ApiController]는 `DataAnnotations` 유효성 검사 규칙의 시행을 포함한 다양한 서버측 규칙을 추가하기 때문에 모델 클래스에 `DataAnnotations` 유효성 검사 규칙을 추가하기만 하면 됩니다.
 
-Open `Address.cs` from the `BlazingPizza.Shared` project, and put a `[Required]` attribute onto each of the properties except for `Id` (which is autogenerated, because it's the primary key) and `Line2`, since not all addresses need a second line. You can also place some `[MaxLength]` attributes if you wish, or any other `DataAnnotations` rules:
-
+`BlazingPizza.Shared` 프로젝트의 `Address.cs`을 열고 모든 주소에 두 번째 줄이 필요한 것은 아니므로 자동 생성되는 `Id`(기본키이므로 자동 생성됨)와 `Line2`를 제외한 각 속성에 `[Required]` 속성을 추가합니다. 필요하면 `[MaxLength]` 속성 또는 다른 `DataAnnotations` 규칙을 추가할 수도 있습니다.
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
@@ -195,21 +195,21 @@ namespace BlazingPizza
 }
 ```
 
-Now, after you recompile and run your application, you should be able to observe the validation rules being enforced on the server. If you try to submit an order with a blank delivery address, then the server will reject the request and you'll see an HTTP 400 ("Bad Request") error in the browser's *Network* tab:
+이제 어플리케이션을 다시 컴파일하고 실행한 후, 서버에서 진행하는 유효성 검사를 확인할 수 있습니다. 배달 주소가 비어있는 주문을 제출하려고 하면 서버가 요청을 거부하고 브라우저의 *Network* 탭에 HTTP400("Bad Request") 오류가 표시됩니다.
 
 ![Server validation](https://user-images.githubusercontent.com/1874516/77242384-067af800-6bbb-11ea-8dd0-74f457d15afd.png)
 
-... whereas if you fill out the address fields fully, the server will allow you to place the order. Check that both of these cases behave as expected.
+주소 필드를 모두 작성하면 주문할 수 있습니다. 이 경우에 대해서도 모두 예상대로 작동하는지 확인해 주세요.
 
-## Adding client-side validation
+## 클라이언트측 유효성 검사 추가하기
 
-Blazor has a comprehensive system for data entry forms and validation. We'll now use this to apply the same `DataAnnotations` rules on the client that are already being enforced on the server.
+블레이저는 데이터 입력 양식과 검증을 위한 포괄적인 시스템을 갖추고 있습니다. 이제 이를 사용하여 서버에서 이미 시행 중인 클라이언트에 동일한 `DataAnnotations` 규칙을 적용할 것입니다.
 
-The way Blazor's forms and validation system works is based around something called an `EditContext`. An `EditContext` tracks the state of an editing process, so it knows which fields have been modified, what data has been entered, and whether or not the fields are valid. Various built-in UI components hook into the `EditContext` both to read its state (e.g., display validation messages) and to write to its state (e.g., to populate it with the data entered by the user).
+블레이저의 폼과 유효성 검사 시스템은 `EditContext`을 기반으로 작동합니다. `EditContext`는 편집 과정의 상태를 추적하기 때문에 어떤 필드가 수정되었는지, 어떤 데이터가 입력되었는지, 그리고 필드가 유효한지 여부를 알 수 있습니다. 다양한 내장 UI 컴포넌트는 `EditContext`에 연결되어 상태를 읽고(예: 유효성 검사 메시지 표시) 상태에 쓰기(예: 사용자가 입력한 데이터로 채우기) 할 수 있습니다.
 
-### Using EditForm
+### EditForm 사용하기
 
-One of the most important built-in UI components for data entry is the `EditForm`. This renders as an HTML `<form>` tag, but also sets up an `EditContext` to track what's going on inside the form. To use this, go to your `Checkout.razor` component, and wrap an `EditForm` around the whole of the contents of the `main` div:
+데이터 입력을 위한 가장 중요한 내장 UI 컴포넌트 중 하나는 `EditForm`입니다. 이는 HTML '<form>' 태그로 렌더링되지만 `EditContext`를 설정하여 폼 내부에서 무슨 일이 일어나고 있는지 추적합니다. 이를 사용하려면 `Checkout.razor` 파일을 열고 `main` div의 전체 내용을 `EditForm`으로 둘러싸 주세요. 아래 HTML을 참고하세요.
 
 ```razor
 <div class="main">
@@ -225,40 +225,40 @@ One of the most important built-in UI components for data entry is the `EditForm
 </div>
 ```
 
-You can have multiple `EditForm` components at once, but they can't overlap (because HTML's `<form>` elements can't overlap). By specifying a `Model`, we're telling the internal `EditContext` which object it should validate when the form is submitted (in this case, the delivery address).
+한 번에 여러 개의 `EditForm` 컴포넌트를 가질 수 있지만 (HTML의 '<form>' 요소는 겹칠 수 없기 때문에) 중첩될 수 없습니다. `Model`을 지정하면 양식을 제출할 때 어떤 개체(이 경우 배송 주소)를 검증해야 하는지 내부의 `EditContext`에 알려줍니다.
 
-Let's start by displaying validation messages in a very basic (and not very attractive) way. Inside the `EditForm`, right at the bottom, add the following two components:
+먼저 가장 기본적이지만 멋지지 않은 않은 방식으로 검증 메시지를 표시합니다. 바로 아래에 있는 `Edit Form` 안에 다음 두 가지 구성 요소를 추가합니다.
 
 ```razor
 <DataAnnotationsValidator />
 <ValidationSummary />
 ```
 
-The `DataAnnotationsValidator` hooks into events on the `EditContext` and executes `DataAnnotations` rules. If you wanted to use a different validation system other than `DataAnnotations`, you'd swap `DataAnnotationsValidator` for something else.
+`Data Annotations Validator`는 `EditContext` 이벤트를 연결하여 `DataAnnotations` 규칙을 실행합니다. `DataAnnotations`가 아닌 다른 검증 시스템을 사용하려면 `DataAnnotationsValidator`를 다르게 바꾸어야 합니다.
 
-The `ValidationSummary` simply renders an HTML `<ul>` containing any validation messages from the `EditContext`.
+`Validation Summary`는 단순히 `EditContext`의 모든 유효성 검사 메시지를 HTML `<ul>` 목록으로 렌더링 합니다.
 
-### Handling submission
+### 제출 처리
 
-If you ran your application now, you could still submit a blank form (and the server would still respond with an HTTP 400 error). That's because your `<button>` isn't actually a `submit` button. Modify the `button` by adding `type="submit"` and **removing** its `@onclick` attribute entirely.
+지금 실행되어 있는 어플리케이션은 빈 양식을 제출할 수 있습니다.(서버는 여전히 HTTP 400 오류로 응답합니다) 그것은 `<button>`은 실제 `submit` 버튼이 아니기 때문입니다. `button`에 `type="submit"`을 추가하고 `@onclick` 속성을 완전히 **삭제**해 보세요.
 
-Next, instead of triggering `PlaceOrder` directly from the button, you need to trigger it from the `EditForm`. Add the following `OnValidSubmit` attribute onto the `EditForm`:
+다음으로 버튼에서 직접 `PlaceOrder`를 트리거하는 대신 `EditForm`에서 트리거해야 합니다. `EditForm`에 다음 `OnValidSubmit` 속성을 추가합니다.
 
 ```razor
 <EditForm Model="OrderState.Order.DeliveryAddress" OnValidSubmit="PlaceOrder">
 ```
 
-As you can probably guess, the `<button>` no longer triggers `PlaceOrder` directly. Instead, the button just asks the form to be submitted. And then the form decides whether or not it's valid, and if it is, *then* it will call `PlaceOrder`.
+짐작하시겠지만 `<button>`은 더 이상 `PlaceOrder`를 직접 트리거하지 않습니다. 대신 버튼은 양식을 제출하도록 요청합니다. 그러면 양식은 양식이 유효한지 여부를 결정하고, **유효하다면** `PlaceOrder`를 호출합니다.
 
-Try it out: you should no longer be able to submit an invalid form, and you'll see validation messages (albeit unattractive ones) where you placed the `ValidationSummary`.
+더 이상 유효하지 않은 양식을 제출할 수 없으며, `ValidationSummary`에 검증 메시지(비록 멋지지 않더라도)가 표시됩니다.
 
 ![Validation summary](https://user-images.githubusercontent.com/1874516/77242430-9d47b480-6bbb-11ea-96ef-8865468375fb.png)
 
-### Using ValidationMessage
+### ValidationMessage 사용하기
 
-Obviously it's pretty disgusting to display all the validation messages so far away from the text boxes. Let's move them to better places.
+텍스트 상자에서 너무 멀리 떨어진 곳에 모든 유효성 검사 메시지를 표시 하는 것은 그다지 좋아보이지 않습니다. 더 좋은 장소로 이동 시킵시다.
 
-Start by removing the `<ValidationSummary>` component entirely. Then, switch over to `AddressEditor.razor`, and add separate `<ValidationMessage>` components next to each of the form fields. For example,
+`<Validation Summary>` 컴포넌트를 완전히 삭제하는 것으로 시작합니다. 그런 다음, `AddressEditor.razor` 파일을 열고 각 양식 필드 옆에 별도의 `<ValidationMessage>` 컴포넌트를 추가합니다. 예를 들면 아래와 같습니다.
 
 ```razor
 <div class="form-field">
@@ -270,32 +270,32 @@ Start by removing the `<ValidationSummary>` component entirely. Then, switch ove
 </div>
 ```
 
-Do the equivalent for all of the form fields.
+모든 양식 필드에 대해 동일한 작업을 수행합니다.
 
-In case you're wondering, the syntax `@(() => Address.Name)` is a *lambda expression*, and we use this syntax as a way of describing which property to read the metadata from, without actually evaluating the property's value.
+궁금한 점이 있다면 `@(() => Address.Name)` 구문은 *람다식*이며 실제로 속성 값을 평가하지 않고 메타데이터를 읽을 속성을 설명하는 방법으로 이 구문을 사용합니다.
 
-Now things look a lot better:
+이제 훨씬 좋아보입니다.
 
 ![Validation messages](https://user-images.githubusercontent.com/1874516/77242484-03ccd280-6bbc-11ea-8dd1-5d723b043ee2.png)
 
-If you want, you can improve the readability of the messages by specifying custom ones. For example, instead of displaying *The City field is required*, you could go to `Address.cs` and do this:
+원한다면 사용자 지정 메시지를 지정하여 메시지의 가독성을 높일 수 있습니다. 예를 들어 *The City field is required*을 표시하는 대신 `Address.cs` 파일에서 아래와 같이 할 수 있습니다.
 
 ```csharp
 [Required(ErrorMessage = "How do you expect to receive the pizza if we don't even know what city you're in?"), MaxLength(50)]
 public string City { get; set; }
 ```
 
-### Better validation UX using the built-in input components
+### 빌트인 입력 컴포넌트를 사용하여 유효성 검사 UX 개선
 
-The user experience is still not great, because once the validation messages are displayed, they remain on the screen until you click *Place order* again, even if you have edited the field values. Try it out and see how it feels pretty basic!
+유효성 검사 메시지가 표시되면 필드 값을 편집했더라도 *Place Order*버튼을 다시 클릭할 때까지 화면에 남아 있기 때문에 그다지 좋은 사용자 경험은 아닙니다. 사용해보고 기본적인 느낌을 확인해 보세요!
 
-To improve on this, you can replace the low-level HTML input elements with Blazor's built-in input components. They know how to hook more deeply into the `EditContext`:
+이를 개선하려면 하위 수준의 HTML 입력 요소를 Blazor의 기본 입력 요소로 교체하면 됩니다. 이들은 `EditContext`에 더 원활하게 연결됩니다.
 
-* When they are edited, they notify the `EditContext` immediately so it can refresh validation status.
-* They also receive notifications about validity from the `EditContext`, so they can highlight themselves as either valid or invalid as the user edits them.
+* 편집되면 `EditContext`에 즉시 알림을 보내 유효성 검사 상태를 새로 고칠 수 있습니다.
+* 또한 `EditContext`로부터 유효성에 대한 알림을 받기 때문에 사용자가 편집할 때 유효 또는 유효하지 않음으로 하이라이트 표시를 할 수 있습니다.
 
-Go back to `AddressEditor.razor` once again. Replace each of the `<input>` elements with a corresponding `<InputText>` and
-also change `@bind` to `@bind-Value`. For example,
+
+다시 한 번 `AddressEditor.razor` 파일을 열고 각각의 `<input>`요소를 `<InputText>`로 바꾸고 `@bind`는 `@bind-value`로 바꾸어 줍니다. 아래와 코드를 참고하세요.
 
 ```html
 <div class="form-field">
@@ -307,26 +307,26 @@ also change `@bind` to `@bind-Value`. For example,
 </div>
 ```
 
-Do this for all the properties. The behavior is now much better! As well as having the validation messages update individually for each form field as you change focus, you'll get a neat "valid" or "invalid" highlight around each one:
+모든 속성에 대해 이 작업을 수행합니다. 이제 동작이 훨씬 좋아졌습니다! 포커스를 변경할 때 각 양식 필드에 대해 개별적으로 유효성 검사 메시지가 업데이트될 뿐만 아니라 각 항목에 대해 깔끔한 "유효한" 또는 "유효하지 않은" 하이라이트가 표시됩니다.
 
 ![Input components](https://user-images.githubusercontent.com/1874516/77242542-ba30b780-6bbc-11ea-8018-be022d6cac0b.png)
 
-The green/red styling is achieved by applying CSS classes, so you can change the appearance of these effects or remove them entirely if you wish.
+녹색/빨간색 스타일링은 CSS 클래스를 적용하여 처리되므로 원하는 경우 이러한 효과의 모양을 변경하거나 완전히 제거할 수 있습니다.
 
-`InputText` isn't the only built-in input component, though it is the only one we need in this case. Others include `InputCheckbox`, `InputDate`, `InputSelect`, and more.
+`InputText`뿐만 아니라 `InputCheckbox`, `InputDate`, `InputSelect` 등 다른 입력 요소가 준비되어 있습니다.
 
-## Bonus challenge
+## 한 가지 더!
 
-If you're keen and have time, can you prevent accidental double-submission of the form?
+혹시 시간이 된다면, 우발적인 이중 제출을 방지할 수 있을까요?
 
-Currently, if it takes a while for the form post to reach the server, the user could click submit multiple times and send multiple copies of their order. Try declaring a `bool isSubmitting` property that, when `true`, results in the *Place order* button being disabled. Remember to set it back to `false` when the submission is completed (successfully or not), otherwise the user might get stuck.
+현재 폼 게시물이 서버에 도달하는 데 시간이 걸리는 경우, 사용자는 버튼을 여러 번 클릭하여 주문 복사본을 여러 번 보낼 수 있습니다. `true`이면 *Place order* 버튼이 비활성화되는 `bool is Submiting` 속성을 선언하고 제출이 완료되면(성공하든 실패하든) 다시 `false`로 설정해야 합니다. 그렇지 않으면 사용자가 다시 제출하지 못 하니까요.
 
-To check your solution works, you might want to slow down the server by adding the following line at the top of `PlaceOrder()` inside `OrdersController.cs`:
+이 방법이 잘 작동하는지 확인하려면 서버측 `OrdersController.cs` 파일의 `PlaceOrder()` 메서드 맨 위에 아래와 같은 줄을 추가하여 서버를 잠시 늦을 수 있습니다.
 
 ```cs
 await Task.Delay(5000); // Wait 5 seconds
 ```
 
-## Up next
+## 다음 세션
 
-Up next we'll add [authentication and authorization](https://github.com/dotnet-presentations/blazor-workshop/blob/master/docs/06-authentication-and-authorization.md)
+다음으로 [인증과 권한](https://github.com/dotnet-presentations/blazor-workshop/blob/master/docs/06-authentication-and-authorization.md)에 대해 진행할 것입니다.
