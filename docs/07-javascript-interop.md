@@ -1,12 +1,12 @@
-# JavaScript interop
+# 자바스크립트 상호운용성(JavaScript interop)
 
-Users of the pizza store can now track the status of their orders in real time. In this session we'll use JavaScript interop to add a real-time map to the order status page that answers the age old question, "Where's my pizza?!?".
+이제 피자 가게 사용자는 주문 상태를 실시간으로 추적할 수 있습니다. 이 세션에서는 자바스크립트 상호운용성을 사용하여 "내 피자는 어디 있지?!?"라는 오래된 질문에 답하는 주문 상태 페이지에 실시간 지도를 추가합니다.
 
-## The Map component
+## 지도 컴포넌트
 
-Included in the ComponentsLibrary project is a prebuilt `Map` component for displaying the location of a set of markers and animating their movements over time. We'll use this component to show the location of the user's pizza orders as they are being delivered, but first let's look at how the `Map` component is implemented.
+ComponentsLibrary 프로젝트에는 마커 세트의 위치를 표시하고 시간 경과에 따른 움직임에 애니메이션을 위해 이미 작성된 `Map` 컴포넌트가 포함되어 있습니다. 이 컴포넌트를 사용하여 사용자의 피자 주문이 배달 되는 위치를 표시하지만 `Map` 컴포넌트가 어떻게 구현되는지 살펴보겠습니다.
 
-Open *Map.razor* and take a look at the code:
+*Map.razor* 파일을 열고 아래 코드를 살펴보세요.
 
 ```csharp
 @using Microsoft.JSInterop
@@ -30,19 +30,20 @@ Open *Map.razor* and take a look at the code:
 }
 ```
 
-The `Map` component uses dependency injection to get an `IJSRuntime` instance. This service can be used to make JavaScript calls to browser APIs or existing JavaScript libraries by calling the `InvokeVoidAsync` or `InvokeAsync<TResult>` method. The first parameter to this method specifies the path to the JavaScript function to call relative to the root `window` object. The remaining parameters are arguments to pass to the JavaScript function. The arguments are serialized to JSON so they can be handled in JavaScript.
+`Map` 구성 요소는 종속성 주입을 사용하여 `IJSRuntime` 인스턴스를 가져옵니다. 이 서비스를 사용하면 `InvokeVoidAsync` 또는 `InvokeAsync<TResult>` 메서드를 호출하여 브라우저 API 또는 기존 JavaScript 라이브러리에 대한 JavaScript 호출을 수행할 수 있습니다. 이 메소드의 첫 번째 매개변수는 루트 `window` 객체를 기준으로 호출할 JavaScript 함수의 경로를 지정합니다. 나머지 매개변수는 JavaScript 함수에 전달할 인수입니다. 인수는 JavaScript로 처리될 수 있도록 JSON으로 직렬화됩니다.
 
-The `Map` component first renders a `div` with a unique ID for the map and then calls the `deliveryMap.showOrUpdate` function to display the map in the specified element with the specified markers passed to the `Map` component. This is done in the `OnAfterRenderAsync` component lifecycle event to ensure that the component is done rendering its markup. The `deliveryMap.showOrUpdate` function is defined in the *wwwroot/deliveryMap.js* file, which then uses [leaflet.js](http://leafletjs.com) and [OpenStreetMap](https://www.openstreetmap.org/) to display the map. The details of how this code works isn't really important - the critical point is that it's possible to call any JavaScript function this way.
+`Map` 컴포넌트는 먼저 지도의 고유 ID로 `div`를 렌더링한 다음 `deliveryMap.showOrUpdate` 함수를 호출하여 지정된 마커가 `Map` 컴포넌트에 전달해 지도에 표시합니다. 이 작업은 `OnAfterRenderAsync` 함수에서 완료되어 컴포넌트 수명 주기 이벤트에서 수행이 완료됩니다. `deliveryMap.showOrUpdate` 함수는 *wwwroot/deliveryMap.js* 파일에 정의되어 있으며 [leaflet.js](http://leafletjs.com)과 [OpenStreetMap](https://www.openstreetmap.org/)을 이용하여 지도에 표시합니다. 이 코드의 작동 방식에 대한 세부 사항은 실제로 중요하지 않습니다. 중요한 점은 모든 JavaScript 함수를 이런 방식으로 호출할 수 있다는 것입니다.
 
-How do these files make their way to the Blazor app? For a Blazor library project (using `Sdk="Microsoft.NET.Sdk.Razor"`) any files in the `wwwroot/` folder will be bundled with the library. The server project will automatically serve these files using the static files middleware.
+이런 파일은 어떻게 블레이저 앱에 추가하나요? 블레이저 라이브러리 프로젝트(`Sdk="Microsoft.NET.Sdk.Razor"`)를 사용하면 `wwwroot/` 폴더에 있는 모든 파일은 라이브러리와 함께 번들로 제공됩니다. 서버 프로젝트는 정적 파일 미들웨어를 사용하여 이러한 파일을 자동으로 제공합니다.
 
-The final link is for the page hosting the Blazor client app to include the desired files (in our case `.js` and `.css`). The `index.html` includes these files using relative URIs like `_content/BlazingPizza.ComponentsLibrary/localStorage.js`. This is the general pattern for references files bundled with a Blazor class library - `_content/<library name>/<file path>`.
+블레이저 클라이언트 앱을 호스팅하는 페이지에 원하는 파일(이 경우 `.js` 및 `.css`)을 포함시키는 링크가 마지막에 있습니다. `index.html`에는 `_content/BlazingPizza.ComponentsLibrary/localStorage.js`와 같은 상대 URI를 사용하여 이러한 파일이 포함됩니다. 이는 블레이저 클래스 라이브러리(`_content/<라이브러리 이름>/<파일 경로>`)와 함께 번들로 제공되는 참조 파일의 일반적인 패턴입니다.
 
 ---
 
-If you start typing in `Map`, you'll notice that the editor doesn't offer completion for it. This is because the binding between elements and components are governed by C#'s namespace binding rules. The `Map` component is defined in the `BlazingPizza.ComponentsLibrary.Map` namespace, which we don't have an `@using` for.
+`Map`에 입력을 시작하면 편집기에서 완성 기능을 제공하지 않는다는 것을 알 수 있습니다. 이는 요소와 컴포넌트 간의 바인딩이 C#의 네임스페이스 바인딩 규칙에 의해 제어되기 때문입니다. `Map` 구성 요소는 `BlazingPizza.ComponentsLibrary.Map` 네임스페이스에 정의되어 있지만 이에 대한 `@using`이 없습니다.
 
-Add an `@using` for this namespace to the root `_Imports.razor` to bring this component into scope:
+이 네임스페이스에 대한 `@using`을 루트 `_Imports.razor`에 추가하여 이 컴포넌트 범위로 가져옵니다.
+
 ```razor
 @using System.Net.Http
 @using Microsoft.AspNetCore.Authorization
@@ -56,7 +57,7 @@ Add an `@using` for this namespace to the root `_Imports.razor` to bring this co
 @using BlazingPizza.ComponentsLibrary.Map
 ```
 
-Add the `Map` component to the `OrderDetails` page by adding the following just below the `track-order-details` `div`:
+`track-order-details` `div` 바로 아래에 다음을 추가하여 `OrderDetails` 페이지에 `Map` 구성 요소를 추가합니다.
 
 ```html
 <div class="track-order-map">
@@ -64,19 +65,19 @@ Add the `Map` component to the `OrderDetails` page by adding the following just 
 </div>
 ```
 
-*The reason why we haven't needed to add `@using`s for our components before now is that our root `_Imports.razor` already contains an `@using BlazingPizza.Shared` which matches the reusable components we have written.*
+*이전에는 컴포넌트에 `@using`을 추가할 필요가 없었던 이유는 루트 `_Imports.razor`에 우리가 작성한 재사용 가능한 컴포넌트와 일치하는 `@using BlazingPizza.Shared`가 이미 포함되어 있기 때문입니다.*
 
-When the `OrderDetails` component polls for order status updates, an update set of markers is returned with the latest location of the pizzas, which then gets reflected on the map.
+`OrderDetails` 컴포넌트가 주문 상태 업데이트를 위해 폴링할 때 지도에 피자의 최신 위치가 반영된 마커가 반영됩니다.
 
 ![Real-time pizza map](https://user-images.githubusercontent.com/1874516/51807322-6018b880-227d-11e9-89e5-ef75f03466b9.gif)
 
-## Add a confirm prompt for deleting pizzas
+## 피자 삭제 확인 메시지 추가
 
-The JavaScript interop code for the `Map` component was provided for you. Next you'll add some JavaScript interop code of your own.
+`Map` 컴포넌트에 대한 자바스크립트 상호운용성 코드는 제공되었습니다. 다음으로는 자바스크립트 상호운용성 코드를 추가해 보겠습니다.
 
-It would be a shame if users accidentally deleted pizzas from their order (and ended up not buying them!). Let's add a confirm prompt when the user tries to delete a pizza. We'll show the confirm prompt using JavaScript interop.
+사용자가 실수로 주문에서 피자를 삭제하고 결국 피자를 구매하지 않게 된다면 안타까운 일이 될 것입니다. 사용자가 피자를 삭제하려고 할 때 확인 메시지를 추가해 보겠습니다. 자바스크립트 상호운용성을 사용하여 확인 프롬프트를 표시하겠습니다.
 
-Add a static `JSRuntimeExtensions` class to the Client project with a `Confirm` extension method off of `IJSRuntime`. Implement the `Confirm` method to call the built-in JavaScript `confirm` function.
+`IJSRuntime`의 `Confirm` 확장 메서드를 사용하여 클라이언트 프로젝트에 정적 `JSRuntimeExtensions` 클래스를 추가합니다. 내장된 JavaScript `confirm` 함수를 호출하려면 `Confirm` 메소드를 구현하십시오.
 
 ```csharp
 public static class JSRuntimeExtensions
@@ -88,7 +89,7 @@ public static class JSRuntimeExtensions
 }
 ```
 
-Inject the `IJSRuntime` service into the `Index` component so that it can be used there to make JavaScript interop calls.
+자바스크립트 상호운용성 호출을 수행하는 데 사용할 수 있도록 `Index` 구성 요소에 `IJSRuntime` 서비스를 삽입합니다.
 
 ```razor
 @page "/"
@@ -98,7 +99,7 @@ Inject the `IJSRuntime` service into the `Index` component so that it can be use
 @inject IJSRuntime JS
 ```
 
-Add an async `RemovePizza` method to the `Index` component that calls the `Confirm` method to verify if the user really wants to remove the pizza from the order.
+사용자가 실제로 주문에서 피자를 제거하기를 원하는지 확인하기 위해 `Confirm` 메서드를 호출하는 `Index` 구성 요소에 비동기 `RemovePizza` 메서드를 추가합니다.
 
 ```csharp
 async Task RemovePizza(Pizza configuredPizza)
@@ -110,7 +111,7 @@ async Task RemovePizza(Pizza configuredPizza)
 }
 ```
 
-In the `Index` component update the event handler for the `ConfiguredPizzaItems` to call the new `RemovePizza` method. 
+`Index` 컴포넌트에서 `ConfiguredPizzaItems`에 대한 이벤트 핸들러를 수정하여 새로운 `RemovePizza` 메서드를 호출합니다.
 
 ```csharp
 @foreach (var configuredPizza in OrderState.Order.Pizzas)
@@ -119,10 +120,10 @@ In the `Index` component update the event handler for the `ConfiguredPizzaItems`
 }
 ```
 
-Run the app and try removing a pizza from the order.
+앱을 실행하고 주문에서 피자를 삭제해 보세요.
 
 ![Confirm pizza removal](https://user-images.githubusercontent.com/1874516/77243688-34b40400-6bca-11ea-9d1c-331fecc8e307.png)
 
-Notice that we didn't have to update the signature of `ConfiguredPizzaItem.OnRemoved` to support async. This is another special property of `EventCallback`, it supports both synchronous event handlers and asynchronous event handlers.
+`ConfiguredPizzaItem.OnRemoved`를 비동기로 실행하기 위해 메서드 시그니처를 수정해야 할 필요가 없습니다. `EventCallback`의 다른 특수 속성으로 동기, 비동기 이벤트 핸들러를 모두 지원합니다.
 
-Next up - [Templated components](08-templated-components.md)
+다음 세션 - [템플릿 컴포넌트](08-templated-components.md)
