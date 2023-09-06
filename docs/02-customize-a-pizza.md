@@ -138,11 +138,11 @@ void ShowConfigurePizzaDialog(PizzaSpecial special)
 양방향 바인딩을 수동으로 구현하려면 다음 코드와 같이 value와 @onchange를 결합하여 구현할 수 있습니다.(더 쉬운 방법이 있으므로 이 코드를 실제로 어플리케이션을 추가할 필요는 없습니다.)
 
 ```html
-<input 
-    type="range" 
-    min="@Pizza.MinimumSize" 
-    max="@Pizza.MaximumSize" 
-    step="1" 
+<input
+    type="range"
+    min="@Pizza.MinimumSize"
+    max="@Pizza.MaximumSize"
+    step="1"
     value="@Pizza.Size"
     @onchange="@((ChangeEventArgs e) => Pizza.Size = int.Parse((string) e.Value))" />
 ```
@@ -188,6 +188,7 @@ void ShowConfigurePizzaDialog(PizzaSpecial special)
         toppings = await HttpClient.GetFromJsonAsync<List<Topping>>("toppings");
     }
 }
+
 ```
 
 대화 상자에 아래 마크업을 추가하여 사용 가능한 토핑 목록과 선택한 토핑을 표시합니다. 기존의 `<div>` 태크 아래에 `<form class="dialog-body">`태그 안에 아래 마크업을 추가해 주세요.
@@ -263,14 +264,14 @@ void RemoveTopping(Topping topping)
 
 취소 및 주문 버튼은 아직 아무 것도 동작하지 않습니다. 사용자가 피자를 주문하거나 취소할 때 `Index` 컴포넌트와 통신할 수 있는 방법이 필요합니다. 컴포넌트 이벤트를 정의하면 그렇게 할 수 있습니다. 컴포넌트 이벤트는 부모 컴포넌트가 구독할 수 있는 콜백 매개 변수 입니다.
 
-`ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`, 두 개의 매개 변수를 추가해 주세요. 두 매개 변수 모두 `EventCallback` 타입이어야 합니다.
+`ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`, 두 개의 속성을 추가해 주세요. 두 속성 모두 `EventCallback` 타입이어야 합니다.
 
 ```csharp
 [Parameter] public EventCallback OnCancel { get; set; }
 [Parameter] public EventCallback OnConfirm { get; set; }
 ```
 
- `ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`를 `@onclick` 이벤트 핸들러에 각각 추가합니다.
+ `ConfigurePizzaDialog` 컴포넌트에 `OnCancel`과 `OnConfirm`을 `@onclick` 이벤트 핸들러에 각각 추가합니다.
 
 ```html
 <div class="dialog-buttons">
@@ -298,9 +299,9 @@ void CancelConfigurePizzaDialog()
 
 이제 대화상자의 취소 버튼을 클릭하면 `Index.CancelConfigurePizzaDialog`가 실행되고 그러면 `Index` 컴포넌트가 다시 렌더링됩니다. 이제 `showingConfigureDialog`가 `false`이므로 대화상자가 표시되지 않게 됩니다.
 
-일반적으로 이벤트를 트리거 할 때(취소 버튼을 클릭하는 것 처럼) 발생하는 일은 이벤트 핸들러를 정의한 컴포넌트가 렌더링됩니다. `Action`, `Func<string, Task>`과 같은 대리자 타입을 이용하여 이벤트를 정의할 수 있습니다. 컴포넌트에 속하지 않는 이벤트를 사용하고자 할 때도 있습니다. 이 경우 일반적인 대리자 타입을 정의하면 렌더링 혹은 업데이트가 되지 않습니다. 
+일반적으로 이벤트를 트리거하면(예: 취소 버튼 클릭) 이벤트 핸들러 델리게이트를 정의한 컴포넌트가 다시 렌더링됩니다. `Action`이나 `Func<string, Task>`와 같은 델리게이트를 사용하여 이벤트를 정의할 수 있습니다. 컴포넌트에 속하지 않는 이벤트 핸들러 델리게이트를 사용하고 싶을 때가 있는데, 일반 델리게이트 유형을 사용하여 이벤트를 정의하면 아무것도 렌더링되거나 업데이트되지 않습니다.
 
-`EventCallback`은 컴파일러에게 이러한 문제를 해결하는 방법으로 알려진 특수한 타입입니다. 이는 컴파일러에게 이벤트 핸들러를 포함하는 컴포넌트에게 이벤트가 발생하도록 지시합니다. `EventCallback`를 사용하는 몇 가지 트릭이 더 있지만 지금은 `EventCallback`를 사용하면 컴포넌트의 적당한 위치에 현명하게 이벤트를 발생시킬 수 있다는 것만 기억해 주세요.
+`EventCallback`은 컴파일러에게 이러한 문제를 해결하는 방법으로 알려진 특수한 타입입니다. 이는 컴파일러에게 이벤트 핸들러를 포함하는 컴포넌트에게 이벤트가 발생하도록 지시합니다. `EventCallback`를 사용하는 몇 가지 트릭이 더 있지만 지금은 `EventCallback`를 사용하면 컴포넌트의 적당한 위치에 적절히 이벤트를 발생시킬 수 있다는 것만 기억해 주세요.
 
 앱을 실행하고 취소 버튼을 클릭하면 대화 상자가 없어지는 것을 확인해 주세요.
 
@@ -316,9 +317,9 @@ Order order = new Order();
 `Index` 컴포넌트에 선택된 피자를 주문에 추가하는 `OnConfirm` 이벤트 핸들러를 추가하고 `ConfigurePizzaDialog`에 연결합니다.
 
 ```html
-<ConfigurePizzaDialog 
-    Pizza="configuringPizza" 
-    OnCancel="CancelConfigurePizzaDialog"  
+<ConfigurePizzaDialog
+    Pizza="configuringPizza"
+    OnCancel="CancelConfigurePizzaDialog"
     OnConfirm="ConfirmConfigurePizzaDialog" />
 ```
 
@@ -336,9 +337,9 @@ void ConfirmConfigurePizzaDialog()
 
 ## 현재 주문 표시하기
 
-다음으로 현재 선택중인 피자를 표시하고 전체 가격을 계산하고 주문할 수 있는 방법을 제공해야 합니다.
+다음으로 현재 주문에 구성중인 피자를 표시하고 전체 가격을 계산하고 주문할 수 있는 방법을 제공해야 합니다.
 
-선택된 피자를 표시하기 위한 `ConfiguredPizzaItem` 컴포넌트를 새롭게 만듭니다. 이 컴포넌트는 피지와 피자를 제거하는 이벤트 두 가지 매개 변수가 필요합니다.
+선택된 피자를 표시하기 위한 `ConfiguredPizzaItem` 컴포넌트를 새롭게 만듭니다. 여기에는 구성된 피자와 피자가 제거된 시점에 대한 이벤트의 두 가지 매개 변수가 필요합니다.
 
 ```html
 <div class="cart-item">
@@ -391,7 +392,7 @@ void ConfirmConfigurePizzaDialog()
 </div>
 ```
 
-또한 선택된 피자를 제거하고 주문을 넣기 위한 이벤트 핸들러를 `Index` component에 추가하기 위해 아래 코드를 추가해 주세요.
+또한 선택된 피자를 제거하고 주문을 넣기 위한 이벤트 핸들러를 `Index` 컴포넌트에 추가하기 위해 아래 코드를 추가해 주세요.
 
 ```csharp
 void RemoveConfiguredPizza(Pizza pizza)
@@ -406,7 +407,7 @@ async Task PlaceOrder()
 }
 ```
 
-이제 선택된 피자를 제거하고 주문을 넣을 수 있게 되었습니다.
+이제 주문에서 선택된 피자를 추가 및 제거하고 주문을 넣을 수 있습니다.
 
 ![Order list pane](https://user-images.githubusercontent.com/1874516/77239878-b55c0b80-6b9c-11ea-905f-0b2558ede63d.png)
 
@@ -414,3 +415,5 @@ async Task PlaceOrder()
 주문이 데이터베이스에 성공적으로 추가되었지만 UI에서는 아직 이러한 일이 발생했음을 나타내는 것이 아무 것도 없습니다. 그것은 다음 세션에서 다룰 것입니다.
 
 다음 세션 - [주문 상태 표시하기](03-show-order-status.md)
+
+원문 읽기 - [Customize a pizza](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/02-customize-a-pizza.md)

@@ -601,3 +601,5 @@ builder.Services.AddApiAuthorization<PizzaAuthenticationState>(options =>
 이제 로그아웃하면 사용자가 홈 페이지로 다시 돌아오게 됩니다.
 
 다음 세션 - [자바스크립트 상호운용성](07-javascript-interop.md)
+
+원문 읽기 - [Authentication and authorization](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/06-authentication-and-authorization.md)

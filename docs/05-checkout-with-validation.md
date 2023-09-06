@@ -330,3 +330,5 @@ await Task.Delay(5000); // Wait 5 seconds
 ## 다음 세션
 
 다음으로 [인증과 권한](https://github.com/dotnet-presentations/blazor-workshop/blob/master/docs/06-authentication-and-authorization.md)에 대해 진행할 것입니다.
+
+원문 읽기 - [Checkout with validation](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/05-checkout-with-validation.md)

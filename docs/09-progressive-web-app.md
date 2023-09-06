@@ -1,6 +1,6 @@
 # 프로그레시브 웹앱(PWA) 기능
 
-*프로그레시브 웹앱(PWA)*라는 용어는 특정 최신 브라우저 API를 사용하여 사용자의 데스크톱 또는 모바일 OS와 통합되는 네이티브와 유사한 앱 환경을 만드는 웹 애플리케이션을 말합니다.   
+*프로그레시브 웹앱(PWA)*라는 용어는 특정 최신 브라우저 API를 사용하여 사용자의 데스크톱 또는 모바일 OS와 통합되는 네이티브와 유사한 앱 환경을 만드는 웹 애플리케이션을 말합니다.
 
 아래와 같은 특징이 있습니다.
 
@@ -264,3 +264,5 @@ self.addEventListener('notificationclick', event => {
 PWA와 관련된 내용을 더 진행하고 싶다면 좀 더 발전된 과제로 오프라인 지원을 추가하는 것을 생각해 보세요. 기본적인 작업을 수행하는 것은 비교적 쉽습니다 - 다른 오프라인 전략을 설명하고 다양한 서비스 워커 예제를 [The Offline Cookbook](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook)에서 확인해 보세요. 블레이저 피자 가게 앱은 보기나 주문과 같은 흥미로운 작업을 수행하려면 서버 API가 필요하기 때문에 네트워크에 연결할 수 없을 때 합리적인 동작을 제공하도록 컴포넌트를 수정해야 합니다. (예를 들면 캐시된 데이터를 사용하거나 오프라인 상태에서 네트워크 액세스가 필요한 작업을 시도하는 경우 표시되는 UI를 제공하는 것 등입니다.)
 
 다음 세션 - [게시 및 배포](10-publish-and-deploy.md)
+
+원문 읽기 - [Progressive web app](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/09-progressive-web-app.md)

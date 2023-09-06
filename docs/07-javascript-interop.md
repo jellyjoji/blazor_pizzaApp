@@ -16,7 +16,7 @@ ComponentsLibrary 프로젝트에는 마커 세트의 위치를 표시하고 시
 
 @code {
     string elementId = $"map-{Guid.NewGuid().ToString("D")}";
-    
+
     [Parameter] double Zoom { get; set; }
     [Parameter] List<Marker> Markers { get; set; }
 
@@ -127,3 +127,5 @@ async Task RemovePizza(Pizza configuredPizza)
 `ConfiguredPizzaItem.OnRemoved`를 비동기로 실행하기 위해 메서드 시그니처를 수정해야 할 필요가 없습니다. `EventCallback`의 다른 특수 속성으로 동기, 비동기 이벤트 핸들러를 모두 지원합니다.
 
 다음 세션 - [템플릿 컴포넌트](08-templated-components.md)
+
+원문 읽기 - [Javascript interop](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/07-javascript-interop.md)

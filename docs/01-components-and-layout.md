@@ -4,13 +4,13 @@
 
 ## 피자 가게 앱의 첫 걸음
 
-이 레포지토리에 피자 가게 앱을 위한 초기 솔루션을 준비하였습니다.    
-이제 레포지토리를 복사하세요. "save-points" 폴더에 각 세션별로 준비가 되어 있습니다.   
- [starting point](https://github.com/dotnet-presentations/blazor-workshop/tree/master/save-points/00-get-started)를 찾아보세요.   
+이 레포지토리에 피자 가게 앱을 위한 초기 솔루션을 준비하였습니다.
+이제 레포지토리를 복사하세요. "save-points" 폴더에 각 세션별로 준비가 되어 있습니다.
+[starting point](https://github.com/dotnet-presentations/blazor-workshop/tree/master/save-points/00-get-started)를 찾아보세요.
 
 > Note: 이 워크샵 코드를 시스템의 다른 위치에 복사하는 경우, 레포지토리 root에 있는 *Directory.Build.props* 파일도 함께 복사해야 합니다.
 
-이 솔루션은 4개의 프로젝트를 이미 포함하고 있습니다.   
+이 솔루션은 4개의 프로젝트를 이미 포함하고 있습니다.
 ![image](https://user-images.githubusercontent.com/1874516/77238114-e2072780-6b8a-11ea-8e44-de6d7910183e.png)
 
 
@@ -40,9 +40,9 @@
 
 ## 피자 메뉴 목록 표시
 
-첫 번째로 홈페이지에 주문 가능한 피자 메뉴를 표시하는 것부터 진행할 것입니다. 이 목록은 `Index` 컴포넌트 상타에 포함됩니다.
+첫 번째로 홈페이지에 주문 가능한 피자 메뉴를 표시하는 것부터 진행할 것입니다. 이 목록은 `Index` 컴포넌트 상태에 포함됩니다.
 
-*Index.razor* 페이지에 메뉴 목록을 저장할 목록 필드를 저장할 코드를 `@code` 블럭으로 추가해 주세요. 
+*Index.razor* 페이지에 메뉴 목록을 저장할 목록 필드를 저장할 코드를 `@code` 블럭으로 추가해 주세요.
 
 ```csharp
 @code {
@@ -76,7 +76,7 @@
 
 `/specials` API는 minimal API로 정의되어 있으며 **BlazingPizza.Server** 프로젝트의 `PizzaApiExtensions.cs`파일에서 확인하실 수 있습니다.
 
-minimal API와 관련한 상세 내용은 [ASP.NET Core를 사용하여 최소 API 만들기](https://docs.microsoft.com/ko-kr/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0)를 참고하세요.
+minimal API와 관련한 상세 내용은 [ASP.NET Core를 사용하여 최소 API 만들기](https://docs.microsoft.com/ko-kr/aspnet/core/tutorials/min-web-api?view=aspnetcore-7.0)를 참고하세요.
 
 > Note: `BlazingPizza.OrderContext.Default.ListPizzaSpecial`는 [source generators](https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-source-generation)로 JSON을 직렬화한 것입니다.
 
@@ -148,11 +148,13 @@ minimal API와 관련한 상세 내용은 [ASP.NET Core를 사용하여 최소 A
 
 블레이저는 `NavLink` 컴포넌트를 제공합니다. 컴포넌트는 컴포넌트의 타입 이름과 매개 변수를 속성으로 지정하여 사용할 수 있습니다.
 
-`NavLink` 컴포넌트는 현재 URL이 링크의 주소와 일치하면 `active` 클래스를 추가하는 것을 제외하면 앵커 태그와 동일합니다. `NavLinkMatch.All`은 전체 URL(URL Prefix만이 아닌)이 일치하였을 때만 링크가 활성화되어야 하는 것을 의미합니다. `NavLink`의 자세한 내용은 이후 세션에서 더 자세히 다루겠습니다.
+`NavLink` 컴포넌트는 현재 URL이 링크의 주소와 일치할 때 `active` 클래스를 추가하는 것을 제외하면 앵커 태그와 동일합니다. `NavLinkMatch.All`은 전체 URL(URL Prefix만이 아닌)이 일치하였을 때만 링크가 활성화되어야 하는 것을 의미합니다. `NavLink`의 자세한 내용은 이후 세션에서 더 자세히 다루겠습니다.
 
-`Ctrl-F5`를 눌러 앱을 실행해 주세요. 새로운 레이아웃이 적용되어 피자 가게 앱이 아래 이미지와 같이 보일 것입니다. 
+`Ctrl-F5`를 눌러 앱을 실행해 주세요. 새로운 레이아웃이 적용되어 피자 가게 앱이 아래 이미지와 같이 보일 것입니다.
 
 ![image](https://user-images.githubusercontent.com/1874516/77239419-aa52ac80-6b97-11ea-84ae-f880db776f5c.png)
 
 
 다음 세션 - [내 피자 만들기](02-customize-a-pizza.md)
+
+원문 읽기 - [Components and Layout](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/01-components-and-layout.md)

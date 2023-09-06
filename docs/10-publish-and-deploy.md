@@ -122,3 +122,5 @@ Azure 포털에서 앱 서비스를 찾아 **TLS/SSL Settings**을 선택하고 
 축하합니다!
 
 완료된 블레이저 앱을 친구에게 자랑한 후에는 더 이상 유지 관리하고 싶지 않은 Azure 리소스를 정리해야 합니다.
+
+원문 읽기 - [Publish and deploy](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/10-publish-and-deploy.md)

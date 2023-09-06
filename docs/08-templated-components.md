@@ -97,7 +97,7 @@ dotnet sln add BlazingComponents
 
 만약 이 구조가 이상하게 보인다면 비슷한 패턴을 따르는 레이아웃 파일과 비교하여 확인해 보세요. `RenderFragment`가 위임자 타입이긴 하지만, *render*를 하는 방법은 호출하는 것이 아니라, 런타임에서 호출할 수 있도록 정상적인 표현식에 값을 배치하는 것입니다.
 
-다음으로 이 대화 상자에 조건부 동작을 부여하기 위해 `show`라는 `bool` 타입의 매개 변수를 추가해 보겠습니다. 그렇게 한 뒤에는 기존의 모든 컨텐츠를 `@if (Show) { ... }`로 감싸주세요. 전체 파일은 아래와 같습니다. 
+다음으로 이 대화 상자에 조건부 동작을 부여하기 위해 `show`라는 `bool` 타입의 매개 변수를 추가해 보겠습니다. 그렇게 한 뒤에는 기존의 모든 컨텐츠를 `@if (Show) { ... }`로 감싸주세요. 전체 파일은 아래와 같습니다.
 
 ```html
 @if (Show)
@@ -183,9 +183,9 @@ dotnet sln add BlazingComponents
 
 ```html
 <TemplatedDialog Show="OrderState.ShowingConfigureDialog">
-    <ConfigurePizzaDialog 
-        Pizza="OrderState.ConfiguringPizza" 
-        OnCancel="OrderState.CancelConfigurePizzaDialog" 
+    <ConfigurePizzaDialog
+        Pizza="OrderState.ConfiguringPizza"
+        OnCancel="OrderState.CancelConfigurePizzaDialog"
         OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
 </TemplatedDialog>
 ```
@@ -245,7 +245,7 @@ else
         @foreach (var item in items)
         {
             <div class="list-group-item">
-                
+
             </div>
         }
     </div>
@@ -491,3 +491,5 @@ else
 3. 제네릭 타입을 사용하는 컴포넌트이므로 재사용이 더 쉽습니다.
 
 다음 세션 - [프로그레시브 웹앱(PWA)](09-progressive-web-app.md)
+
+원문 읽기 - [Templated components](https://github.com/dotnet-presentations/blazor-workshop/blob/main/docs/08-templated-components.md)
