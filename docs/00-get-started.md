@@ -9,6 +9,7 @@
 * [GIT 설치하기](https://git-scm.com/downloads)
 * [Visual Studio Code + Extensions 설치하기](https://code.visualstudio.com/download)
 * [.NET SDK 7.0 설치하기](https://dotnet.microsoft.com/ko-kr/download)
+* [DB Browser for SQLite](https://sqlitebrowser.org/)
 
 ## 첫 번째 앱 만들기
 
