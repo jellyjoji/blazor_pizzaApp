@@ -1,18 +1,16 @@
 # 해커그라운드 Blazor 부트캠프
 
-해커그라운드 Blazor 앱 만들기 부트캠프에 오신 것을 환영합니다!
-
-Blazor는 .NET과 웹어셈블리를 이용하여 클라이언트 웹 앱을 만들기 위한 단일 페이지 앱 프레임워크입니다.   
-이 워크샵에서 여러분은 C# 기반 Blazor 프레임워크를 배우면서 피자 주문 웹앱 만들기를 진행합니다.   
+해커그라운드 Blazor 앱 만들기 부트캠프에 오신 것을 환영합니다! Blazor는 .NET과 웹어셈블리를 이용하여 클라이언트 웹 앱을 만들기 위한 단일 페이지 앱 프레임워크입니다. 이 워크샵에서 여러분은 C# 기반 Blazor 프레임워크를 배우면서 피자 주문 웹앱 만들기를 진행합니다.   
 
 ![Blazing Pizza](https://user-images.githubusercontent.com/1874516/77244515-c889ce00-6bd2-11ea-9a45-47452c084464.png)
 
 ## 갓벽한 부트캠프 함께하기
 
-원하는 경로에 현재 레포지토리를 복사하고 [첫 세션을 시작](/docs/00-get-started.md)해보세요!   
+원하는 경로에 현재 레포지토리를 복사하고
 ```bash
 $ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
 ```
+[첫 세션을 시작](/docs/00-get-started.md)해보세요!   
 
 ## 세션(Sessions)
 
