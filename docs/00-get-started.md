@@ -19,6 +19,16 @@
 1. [첫 번째 앱 만들기](https://dotnet.microsoft.com/ko-kr/learn/aspnet/blazor-tutorial/intro)
 2. [블레이저 할 일 목록 앱 만들기](https://aka.ms/blazor/todo)
 
-튜토리얼이 어렵지 않죠? 감이 잡히시나요? 다음 단계로 넘어갑시다!  
+튜토리얼이 어렵지 않죠? 구조를 자세히 알고 싶다면 아래 문서를 읽어주세요
+
+## 블레이저 알아보기!
+
+튜토리얼에서 자세히 알지 못했던 블레이저의 구조와 Razor 파일에 대해 알아보겠습니다. 아래 1,2번은 필수적으로 꼭 읽어보시구 3번은 여력이 되면 선택적으로 읽어보세요!  
+
+1. [블레이저 앱의 프로젝트 구조](https://learn.microsoft.com/ko-kr/dotnet/architecture/blazor-for-web-forms-developers/project-structure)
+2. [블레이저 Razor 파일에 대해 알아보자](https://learn.microsoft.com/ko-kr/dotnet/architecture/blazor-for-web-forms-developers/components)
+3. [99쪽 pdf로 Blazor 마스터하기](/edu-matarials/Blazor-for-ASP-NET-Web-Forms-Developers.pdf)
+
+블레이저에 대해 어느정도 감이 잡히셨나요? 다음 세션으로 넘아가봅시다!
 
 다음 세션 - [컴포넌트와 레이아웃](01-components-and-layout.md)
