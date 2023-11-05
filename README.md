@@ -7,9 +7,12 @@ Blazor는 .NET과 웹어셈블리를 이용하여 클라이언트 웹 앱을 만
 
 ![Blazing Pizza](https://user-images.githubusercontent.com/1874516/77244515-c889ce00-6bd2-11ea-9a45-47452c084464.png)
 
-## 시작하기
+## 갓벽한 부트캠프 함께하기
 
-이 레포지토리를 복사하고 [시작](/docs/00-get-started.md)해보세요!   
+원하는 경로에 현재 레포지토리를 복사하고 [첫 세션을 시작](/docs/00-get-started.md)해보세요!   
+```bash
+$ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
+```
 
 ## 세션(Sessions)
 
@@ -26,3 +29,7 @@ Blazor는 .NET과 웹어셈블리를 이용하여 클라이언트 웹 앱을 만
 | [세션 #8](/docs/08-templated-components.md) | 템플릿 컴포넌트 |
 | [세션 #9](/docs/09-progressive-web-app.md) | 프로그레시브 웹앱(PWA) 기능 |
 | [세션 #10](/docs/10-publish-and-deploy.md) | 게시 및 배포 |
+
+
+## 시작하기
+다음 세션 - [첫 세션 시작하기](/docs/00-get-started.md)
