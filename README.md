@@ -27,6 +27,8 @@ $ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
 | [세션 #8](/docs/08-templated-components.md) | 템플릿 컴포넌트 |
 | [세션 #9](/docs/09-progressive-web-app.md) | 프로그레시브 웹앱(PWA) 기능 |
 | [세션 #10](/docs/10-publish-and-deploy.md) | 게시 및 배포 |
+| [더 공부하기](/edu-matarials/Blazor-for-ASP-NET-Web-Forms-Developers.pdf) | Blazor pdf로 공부하기 |
+
 
 
 ## 시작하기

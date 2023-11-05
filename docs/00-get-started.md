@@ -19,4 +19,6 @@
 1. [첫 번째 앱 만들기](https://dotnet.microsoft.com/ko-kr/learn/aspnet/blazor-tutorial/intro)
 2. [블레이저 할 일 목록 앱 만들기](https://aka.ms/blazor/todo)
 
+튜토리얼이 어렵지 않죠? 감이 잡히시나요? 다음 단계로 넘어갑시다!  
+
 다음 세션 - [컴포넌트와 레이아웃](01-components-and-layout.md)
