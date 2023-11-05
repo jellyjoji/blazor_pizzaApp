@@ -12,8 +12,11 @@
 * [.NET SDK 7.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 * [DB Browser for SQLite](https://sqlitebrowser.org)
 
-## 첫 번째 앱 만들기
+## 블레이저 찍먹하자!
 
-일단 첫 번째 블레이저 앱을 실행하였으면 [블레이저 할 일 목록 앱 만들기](https://aka.ms/blazor/todo)에 도전하세요.
+아래의 두가지 튜토리얼을 진행해보며 블레이저로 만들 수 있는 앱을 확인해볼 예정입니다. 함께 찍먹해봐요!  
+
+1. [첫 번째 앱 만들기](https://dotnet.microsoft.com/ko-kr/learn/aspnet/blazor-tutorial/intro)
+2. [블레이저 할 일 목록 앱 만들기](https://aka.ms/blazor/todo)
 
 다음 세션 - [컴포넌트와 레이아웃](01-components-and-layout.md)
