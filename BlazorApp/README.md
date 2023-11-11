@@ -35,22 +35,7 @@ $ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
 
 다음 세션 - [첫 세션 시작하기](/docs/00-get-started.md)
 
-[해커스그라운드 깃헙](https://github.com/hackersground-kr/blazor-workshop-prototype/blob/ko/docs/00-get-started.md)
-
-# Blazor 란?
-
-[Blazor 란?](https://learn.microsoft.com/ko-kr/training/modules/blazor-introduction/2-what-is-blazor)
-
-Blazor는 애플리케이션을 빌드하는 데 사용할 수 있는 .NET용 사용자 인터페이스 프레임워크입니다.
-Blazor는 .NET 및 Razor를 기반으로 하는 사용자 인터페이스 프레임워크입니다.
-
-## .NET이란?
-
-.NET는 데스크톱, 모바일 디바이스, 클라우드 및 IoT 장치용 애플리케이션을 개발하고 배포하기 위한 완벽한 에코시스템입니다.
-
-## Razor란?
-
-Razor는 HTML과 같은 텍스트 기반 콘텐츠를 생성하는 형식입니다. Razor 파일은 cshtml 또는 razor 파일 확장명을 가지며 HTML과 함께 C# 코드를 혼합하여 포함합니다.
+https://github.com/hackersground-kr/blazor-workshop-prototype/blob/ko/docs/00-get-started.md
 
 # 설치
 
@@ -60,38 +45,6 @@ Razor는 HTML과 같은 텍스트 기반 콘텐츠를 생성하는 형식입니�
 
 https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/install
 
-## The template "Blazor Server App" 생성하기
-
-`dotnet`
-
-설치 성공 확인을 합니다.
+# The template "Blazor Server App" 생성하기
 
 `dotnet new blazorserver -o BlazorApp --no-https -f net7.0`
-
-이 명령은 새 Blazor 앱 프로젝트를 만들고 현재 위치 내의 BlazorApp라는 새 디렉터리에 배치합니다.
-
-`cd BlazorApp`
-
-이전 명령으로 만든 새 BlazorApp 디렉터리로 이동합니다.
-
-`dotnet watch`
-
-dotnet watch 명령은 앱을 빌드 및 시작한 다음 코드를 변경할 때마다 앱을 업데이트합니다.
-첫 번째 Blazor 앱을 성공적으로 실행되었습니다.
-
-- [블레이저 앱의 프로젝트 구조](https://learn.microsoft.com/ko-kr/dotnet/architecture/blazor-for-web-forms-developers/project-structure)
-
-- [블레이저 Razor 파일에 대해 알아보자](https://learn.microsoft.com/ko-kr/dotnet/architecture/blazor-for-web-forms-developers/components)
-  UI 구성 요소에서 구성 요소 상태로 양방향 데이터 바인딩을 만들려면 @bind 지시문 특성을 사용합니다.
-  Blazor 코드 내에서 @ 는 c# 과 바인딩 시켜주는 역할으로 리엑트처럼 한 공간 안에서 html javascript c# 을 한번에 쉽게 불러와 사용할수가 있습니다.
-
-`dotnet dev-certs https --trust`
-
-개발에서 HTTPS를 사용할 수 있도록 자체 서명된 인증서를 생성합니다.
-가상으로 인증서를 만들어서 신뢰하게 해줍니다.
-
-https://learn.microsoft.com/ko-kr/dotnet/core/tools/dotnet-dev-certs
-
-서버를 열기위해 해당 파일 경로로 cd 이동 한 후 dotnet watch 를 실행 시켜줍니다.
-
-수정 후 terminal 에서 `ctl + R `으로 재실행 하면 화면에 반영됩니다.
