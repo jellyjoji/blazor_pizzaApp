@@ -97,11 +97,11 @@
         order.Pizzas.Remove(pizza);
     }
 
-async Task PlaceOrder()
-{
-    var response = await HttpClient.PostAsJsonAsync("orders", order);
-    var newOrderId = await response.Content.ReadFromJsonAsync<int>();
-    order = new Order();
-    NavigationManager.NavigateTo($"myorders/{newOrderId}");
-}
+    async Task PlaceOrder()
+    {
+        var response = await HttpClient.PostAsJsonAsync("orders", order);
+        var newOrderId = await response.Content.ReadFromJsonAsync<int>();
+        order = new Order();
+        NavigationManager.NavigateTo($"myorders/{newOrderId}");
+    }
 }
