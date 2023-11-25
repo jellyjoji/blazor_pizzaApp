@@ -73,7 +73,7 @@ https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/install
 `cd BlazorApp`
 
 이전 명령으로 만든 새 BlazorApp 디렉터리로 이동합니다.
-(주의 save-point/01-Components-and-layout/BlazingPizza.Server folder 로 이동 후 서버를 열어야 합니다.)
+(주의 save-point/05-checkout-with-validation(각 챕터에 해당하는 서버 여기)/BlazingPizza.Server folder 로 이동 후 서버를 열어야 합니다.)
 
 `dotnet watch`
 
